@@ -34,9 +34,15 @@ const makeSelectError = () => createSelector(
   (loginState) => loginState.get('error')
 );
 
-export {
-  makeSelectLogin,
+const makeSelectLoading = () => createSelector(
   selectLoginDomain,
+  (loginState) => loginState.get('loading')
+);
+
+export {
+  makeSelectLoading,
+  selectLoginDomain,
+  makeSelectLogin,
   makeSelectUserData,
   makeSelectParams,
   makeSelectError,
