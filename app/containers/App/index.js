@@ -10,6 +10,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
+import { Container } from 'reactstrap';
 
 import HomePage from 'containers/HomePage/Loadable';
 import Login from 'containers/Login';
@@ -17,20 +18,17 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 
-const AppWrapper = styled.div`
-  max-width: calc(768px + 16px * 2);
-  margin: 0 auto;
-  display: flex;
-  min-height: 100%;
-  padding: 0 16px;
-  flex-direction: column;
+const ContainerFluid = styled(Container)`
+  @media (min-width: 1201px) {
+    padding: 0;
+  }
 `;
 
 export default function App() {
   return (
-    <AppWrapper>
+    <ContainerFluid fluid>
       <Helmet
-        titleTemplate="%s - React.js Forum"
+        titleTemplate="%s | React.js Forum"
         defaultTitle="React.js Forum"
       >
         <meta name="description" content="A React.js Forum" />
@@ -42,6 +40,6 @@ export default function App() {
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />
-    </AppWrapper>
+    </ContainerFluid>
   );
 }
