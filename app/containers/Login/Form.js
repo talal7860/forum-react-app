@@ -33,6 +33,6 @@ LoginForm.propTypes = {
 
 
 export default reduxForm({
-  form: 'login-form', // a unique identifier for this form
+  form: 'login', // a unique identifier for this form
 })(LoginForm);
 

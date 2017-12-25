@@ -13,7 +13,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
 const LoginModal = ({ open, toggle }) => (
   <div>
-    <Modal isOpen={open} toggle={toggle} backdrop="true">
+    <Modal isOpen={open} toggle={toggle} backdrop>
       <ModalHeader toggle={toggle}>Login</ModalHeader>
       <ModalBody>
         <Login />

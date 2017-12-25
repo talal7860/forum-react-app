@@ -21,10 +21,10 @@ import { login } from './actions';
 export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  handleSubmit(values) {
+  onSubmit(values) {
     this.props.onLogin(values);
   }
 

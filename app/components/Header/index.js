@@ -31,12 +31,12 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.toggleLogin = this.toggleLogin.bind(this);
     this.state = { openLogin: false };
   }
 
-  handleSubmit(values) {
+  onSubmit(values) {
     console.log(values); //eslint-disable-line
   }
 
@@ -67,7 +67,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
               </SelectTopic>
               <SearchBox lg="4" md="3" className="hidden-xs hidden-sm">
                 <Wrap>
-                  <SearchForm handleSubmit={this.handleSubmit} />
+                  <SearchForm onSubmit={this.onSubmit} />
                 </Wrap>
               </SearchBox>
               <AvtBox lg="4" xs="12" sm="5" md="4">
