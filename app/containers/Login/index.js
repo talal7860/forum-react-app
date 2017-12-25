@@ -12,6 +12,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import AlertError from 'components/AlertError';
 import { makeSelectLogin, makeSelectUserData, makeSelectError, makeSelectLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -37,7 +38,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     } = this;
     return (
       <div>
-        {error}
+        <AlertError error={error} />
         {loading ? 'Loading...' : ''}
         <Form onSubmit={this.onSubmit} />
       </div>

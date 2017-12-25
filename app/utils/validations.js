@@ -10,6 +10,7 @@ const number = (value) =>
 const minValue = (min) => (value) =>
   value && value < min ? `Must be at least ${min}` : undefined;
 const minValue18 = minValue(18);
+const minLength8 = minLength(8);
 const email = (value) =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? 'Invalid email address'
@@ -35,8 +36,8 @@ export {
   maxLength15,
   minLength,
   minLength2,
-  minValue,
   minValue18,
+  minLength8,
   email,
   tooOld,
   aol,
