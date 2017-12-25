@@ -1,6 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Form, Input, Button } from 'reactstrap';
+import { Form, Button } from 'reactstrap';
+import Input from 'components/Input';
 import styled from 'styled-components';
 import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';

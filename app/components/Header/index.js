@@ -5,6 +5,8 @@ import { Navbar, Container, Col } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 
 import ForumDropdown from 'components/ForumDropdown';
+import LoginModal from 'components/LoginModal';
+import A from 'components/A';
 import SelectTopic from './SelectTopic';
 import SearchBox from './SearchBox';
 import Img from './Img';
@@ -21,24 +23,37 @@ const HeaderNavbar = styled(Navbar)`
   border-bottom: 1px solid #c9cccd;
 `;
 
+const SignupLinksWrapper = styled.div`
+  margin-left: 5px;
+`;
+
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleLogin = this.toggleLogin.bind(this);
+    this.state = { openLogin: false };
   }
 
   handleSubmit(values) {
     console.log(values); //eslint-disable-line
   }
 
+  toggleLogin() {
+    this.setState({ openLogin: !this.state.openLogin });
+  }
+
   render() {
     const {
       props: { history },
+      state: { openLogin },
+      toggleLogin,
     } = this;
     return (
       <div>
         <Img src={Banner} alt="Forum - Banner" />
+        <LoginModal open={openLogin} toggle={toggleLogin} />
         <HeaderNavbar>
           <Container>
             <FullRow>
@@ -61,6 +76,9 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
                     Start New Topic
                   </StartButton>
                 </div>
+                <SignupLinksWrapper className="float-left">
+                  <A onClick={toggleLogin}>login</A> | <A onClick={() => {}}>register</A>
+                </SignupLinksWrapper>
               </AvtBox>
             </FullRow>
           </Container>
