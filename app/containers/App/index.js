@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
@@ -18,15 +17,10 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 
-const ContainerFluid = styled(Container)`
-  @media (min-width: 1201px) {
-    padding: 0;
-  }
-`;
 
 export default function App() {
   return (
-    <ContainerFluid fluid>
+    <Container fluid>
       <Helmet
         titleTemplate="%s | React.js Forum"
         defaultTitle="React.js Forum"
@@ -40,6 +34,6 @@ export default function App() {
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />
-    </ContainerFluid>
+    </Container>
   );
 }

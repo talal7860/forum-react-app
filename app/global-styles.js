@@ -15,9 +15,16 @@ injectGlobal`
   body.fontLoaded {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
+  @media (min-width: 1201px) {
+    .container {
+      padding: 0;
+    }
+    .container-fluid {
+      padding: 0;
+    }
+  }
 
   #app {
-    background-color: #fafafa;
     min-height: 100%;
     min-width: 100%;
   }

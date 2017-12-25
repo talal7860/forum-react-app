@@ -17,6 +17,7 @@ import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
 import 'bootstrap/dist/css/bootstrap.css'; // eslint-disable-line import/no-unresolved
+import 'font-awesome/css/font-awesome.min.css'; // eslint-disable-line import/no-unresolved
 
 // Import root app
 import App from 'containers/App';
