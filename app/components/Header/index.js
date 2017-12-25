@@ -53,7 +53,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     return (
       <div>
         <Img src={Banner} alt="Forum - Banner" />
-        <LoginModal open={openLogin} toggle={toggleLogin} />
+        {openLogin ? <LoginModal open={openLogin} toggle={toggleLogin} /> : null}
         <HeaderNavbar>
           <Container>
             <FullRow>

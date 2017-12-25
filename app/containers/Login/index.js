@@ -17,12 +17,16 @@ import { makeSelectLogin, makeSelectUserData, makeSelectError, makeSelectLoading
 import reducer from './reducer';
 import saga from './saga';
 import Form from './Form';
-import { login } from './actions';
+import { login, unmount } from './actions';
 
 export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.props.onUnmount();
   }
 
   onSubmit(values) {
@@ -48,6 +52,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
 
 Login.propTypes = {
   onLogin: PropTypes.func,
+  onUnmount: PropTypes.func,
   error: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
@@ -65,6 +70,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     onLogin: (params) => dispatch(login(params)),
+    onUnmount: () => dispatch(unmount()),
   };
 }
 

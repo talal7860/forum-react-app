@@ -12,6 +12,7 @@ const LoginForm = ({ handleSubmit, pristine, submitting }) => (
       component={Input}
       type="email"
       placeholder="Email"
+      label="Email"
       validate={[required, email]}
     />
     <Field
@@ -19,6 +20,7 @@ const LoginForm = ({ handleSubmit, pristine, submitting }) => (
       component={Input}
       type="password"
       placeholder="Password"
+      label="Password"
       validate={[required, minLength8]}
     />
     <Col>
