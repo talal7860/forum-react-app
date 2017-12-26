@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { Navbar, Container, Col } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import { makeSelectCurrentUser } from 'containers/App/selectors';
+import { logout } from 'containers/App/actions';
 import ForumDropdown from 'components/ForumDropdown';
 import LoginModal from 'components/LoginModal';
 import SignUpModal from 'components/SignUpModal';
@@ -56,7 +58,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 
   render() {
     const {
-      props: { history, currentUser },
+      props: { history, currentUser, onLogout },
       state: { openLogin, openSignUp },
       toggleLogin,
       toggleSignUp,
@@ -92,7 +94,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
                   <SignupLinksWrapper className="float-left">
                     <A onClick={toggleLogin}>login</A> | <A onClick={toggleSignUp}>register</A>
                   </SignupLinksWrapper>
-                : <Avatar user={currentUser} />}
+                : <Avatar user={currentUser} logout={onLogout} />}
               </AvtBox>
             </FullRow>
           </Container>
@@ -108,10 +110,21 @@ Header.propTypes = {
     PropTypes.object,
     PropTypes.bool,
   ]),
+  onLogout: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   currentUser: makeSelectCurrentUser(),
 });
 
-export default connect(mapStateToProps)(withRouter(Header));
+export function mapDispatchToProps(dispatch) {
+  return {
+    onLogout: () => dispatch(logout()),
+  };
+}
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(
+  withRouter,
+  withConnect
+)(Header);

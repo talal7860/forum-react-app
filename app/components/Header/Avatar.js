@@ -40,7 +40,7 @@ class Avatar extends React.Component {
   }
 
   render() {
-    const { props: { user } } = this;
+    const { props: { user, logout } } = this;
     return (
       <AvatarDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="float-left">
         <DropdownToggle
@@ -54,7 +54,7 @@ class Avatar extends React.Component {
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={this.toggle}>My Profile</DropdownItem>
-          <DropdownItem onClick={this.toggle}>Log Out</DropdownItem>
+          <DropdownItem onClick={logout}>Log Out</DropdownItem>
         </DropdownMenu>
       </AvatarDropdown>
     );
@@ -63,6 +63,7 @@ class Avatar extends React.Component {
 
 Avatar.propTypes = {
   user: PropTypes.object.isRequired,
+  logout: PropTypes.func,
 };
 
 export default Avatar;

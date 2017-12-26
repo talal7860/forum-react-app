@@ -3,7 +3,7 @@
  */
 
 import { put, takeLatest, select } from 'redux-saga/effects';
-import { SET_SESSION, RESTORE_SESSION } from 'containers/App/constants';
+import { SET_SESSION, RESTORE_SESSION, SESSION_DESTROY } from 'containers/App/constants';
 import { sessionLoaded } from 'containers/App/actions';
 import { setCurrentUser, setCurrentUserToken, getCurrentUser } from 'utils/persistUser';
 
@@ -29,6 +29,16 @@ export function* restoreSession() {
   }
 }
 
+export function* destroySession() {
+  try {
+    setCurrentUser(null);
+    setCurrentUserToken(null);
+    yield put(sessionLoaded(false));
+  } catch (e) {
+    yield put(sessionLoaded(false));
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -38,4 +48,5 @@ export default function* appLoad() {
   // It will be cancelled automatically on component unmount
   yield takeLatest(SET_SESSION, setSession);
   yield takeLatest(RESTORE_SESSION, restoreSession);
+  yield takeLatest(SESSION_DESTROY, destroySession);
 }
