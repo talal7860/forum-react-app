@@ -13,7 +13,7 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import AlertError from 'components/AlertError';
-import { makeSelectLogin, makeSelectUserData, makeSelectError, makeSelectLoading } from './selectors';
+import { makeSelectLogin, makeSelectError, makeSelectLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import Form from './Form';
@@ -43,7 +43,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     return (
       <div>
         <AlertError error={error} />
-        {loading ? 'Loading...' : ''}
+        {loading ? 'Loging In...' : null}
         <Form onSubmit={this.onSubmit} />
       </div>
     );
@@ -64,7 +64,6 @@ const mapStateToProps = createStructuredSelector({
   login: makeSelectLogin(),
   error: makeSelectError(),
   loading: makeSelectLoading(),
-  user: makeSelectUserData(),
 });
 
 function mapDispatchToProps(dispatch) {

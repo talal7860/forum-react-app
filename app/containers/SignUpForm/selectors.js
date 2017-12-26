@@ -9,17 +9,30 @@ const selectSignUpFormDomain = (state) => state.get('signUpForm');
  * Other specific selectors
  */
 
-
-/**
- * Default selector used by SignUpForm
- */
-
 const makeSelectSignUpForm = () => createSelector(
   selectSignUpFormDomain,
   (substate) => substate.toJS()
 );
 
-export default makeSelectSignUpForm;
-export {
+const makeSelectParams = () => createSelector(
   selectSignUpFormDomain,
+  (signUpState) => signUpState.get('params')
+);
+
+const makeSelectError = () => createSelector(
+  selectSignUpFormDomain,
+  (signUpState) => signUpState.get('error')
+);
+
+const makeSelectLoading = () => createSelector(
+  selectSignUpFormDomain,
+  (signUpState) => signUpState.get('loading')
+);
+
+export {
+  makeSelectLoading,
+  selectSignUpFormDomain,
+  makeSelectSignUpForm,
+  makeSelectParams,
+  makeSelectError,
 };

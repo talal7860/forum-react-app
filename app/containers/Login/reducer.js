@@ -39,11 +39,7 @@ function loginReducer(state = initialState, action) {
         .set('error', action.error)
         .set('loading', false);
     case LOGIN_UNMOUNT:
-      return state
-        .set('error', false)
-        .set('loading', false)
-        .set('params', { email: '', password: '' })
-        .set('user', false);
+      return initialState;
     default:
       return state;
   }

@@ -6,6 +6,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 import ForumDropdown from 'components/ForumDropdown';
 import LoginModal from 'components/LoginModal';
+import SignUpModal from 'components/SignUpModal';
 import A from 'components/A';
 import SelectTopic from './SelectTopic';
 import SearchBox from './SearchBox';
@@ -33,7 +34,8 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleLogin = this.toggleLogin.bind(this);
-    this.state = { openLogin: false };
+    this.toggleSignUp = this.toggleSignUp.bind(this);
+    this.state = { openLogin: false, openSignUp: false };
   }
 
   onSubmit(values) {
@@ -44,16 +46,22 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     this.setState({ openLogin: !this.state.openLogin });
   }
 
+  toggleSignUp() {
+    this.setState({ openSignUp: !this.state.openSignUp });
+  }
+
   render() {
     const {
       props: { history },
-      state: { openLogin },
+      state: { openLogin, openSignUp },
       toggleLogin,
+      toggleSignUp,
     } = this;
     return (
       <div>
         <Img src={Banner} alt="Forum - Banner" />
-        {openLogin ? <LoginModal open={openLogin} toggle={toggleLogin} /> : null}
+        {openLogin ? <LoginModal open={openLogin} toggle={toggleLogin} openSignUp={toggleSignUp} /> : null}
+        {openSignUp ? <SignUpModal isOpen={openSignUp} openLogin={toggleLogin} toggle={toggleSignUp} /> : null}
         <HeaderNavbar>
           <Container>
             <FullRow>
@@ -77,7 +85,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
                   </StartButton>
                 </div>
                 <SignupLinksWrapper className="float-left">
-                  <A onClick={toggleLogin}>login</A> | <A onClick={() => {}}>register</A>
+                  <A onClick={toggleLogin}>login</A> | <A onClick={toggleSignUp}>register</A>
                 </SignupLinksWrapper>
               </AvtBox>
             </FullRow>

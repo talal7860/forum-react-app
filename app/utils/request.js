@@ -28,7 +28,11 @@ async function checkStatus(response) {
   let error = '';
   try {
     const errorResp = await response.json();
-    error = errorResp.meta.message;
+    if (errorResp.error) {
+      error = errorResp.error;
+    } else {
+      error = errorResp.meta.message;
+    }
   } catch (e) {
     error = response.statusText;
   }
