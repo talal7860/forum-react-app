@@ -13,7 +13,7 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import AlertError from 'components/AlertError';
-import { makeSelectLogin, makeSelectError, makeSelectLoading } from './selectors';
+import { makeSelectError, makeSelectLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import Form from './Form';
@@ -61,7 +61,6 @@ Login.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  login: makeSelectLogin(),
   error: makeSelectError(),
   loading: makeSelectLoading(),
 });

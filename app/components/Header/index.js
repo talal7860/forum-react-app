@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Navbar, Container, Col } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import { makeSelectCurrentUser } from 'containers/App/selectors';
 import ForumDropdown from 'components/ForumDropdown';
 import LoginModal from 'components/LoginModal';
 import SignUpModal from 'components/SignUpModal';
@@ -18,6 +21,7 @@ import AvtBox from './AvtBox';
 import StartButton from './StartButton';
 import FullRow from './FullRow';
 import SearchForm from './SearchForm';
+import Avatar from './Avatar';
 
 const HeaderNavbar = styled(Navbar)`
   height: 70px;
@@ -52,7 +56,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 
   render() {
     const {
-      props: { history },
+      props: { history, currentUser },
       state: { openLogin, openSignUp },
       toggleLogin,
       toggleSignUp,
@@ -60,8 +64,8 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     return (
       <div>
         <Img src={Banner} alt="Forum - Banner" />
-        {openLogin ? <LoginModal open={openLogin} toggle={toggleLogin} openSignUp={toggleSignUp} /> : null}
-        {openSignUp ? <SignUpModal isOpen={openSignUp} openLogin={toggleLogin} toggle={toggleSignUp} /> : null}
+        {openLogin && !currentUser ? <LoginModal open={openLogin} toggle={toggleLogin} openSignUp={toggleSignUp} /> : null}
+        {openSignUp && !currentUser ? <SignUpModal isOpen={openSignUp} openLogin={toggleLogin} toggle={toggleSignUp} /> : null}
         <HeaderNavbar>
           <Container>
             <FullRow>
@@ -84,9 +88,11 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
                     Start New Topic
                   </StartButton>
                 </div>
-                <SignupLinksWrapper className="float-left">
-                  <A onClick={toggleLogin}>login</A> | <A onClick={toggleSignUp}>register</A>
-                </SignupLinksWrapper>
+                {!currentUser ?
+                  <SignupLinksWrapper className="float-left">
+                    <A onClick={toggleLogin}>login</A> | <A onClick={toggleSignUp}>register</A>
+                  </SignupLinksWrapper>
+                : <Avatar user={currentUser} />}
               </AvtBox>
             </FullRow>
           </Container>
@@ -98,6 +104,14 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 
 Header.propTypes = {
   history: PropTypes.object.isRequired,
+  currentUser: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.bool,
+  ]),
 };
 
-export default withRouter(Header);
+const mapStateToProps = createStructuredSelector({
+  currentUser: makeSelectCurrentUser(),
+});
+
+export default connect(mapStateToProps)(withRouter(Header));
