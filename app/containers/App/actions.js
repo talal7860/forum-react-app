@@ -23,6 +23,7 @@ import {
   SET_SESSION,
   SESSION_LOADED,
   RESTORE_SESSION,
+  SESSION_DESTROY,
 } from './constants';
 
 
@@ -90,5 +91,11 @@ export function sessionLoaded(currentUser) {
     type: SESSION_LOADED,
     currentUser,
     token: getOr(false, 'token', currentUser),
+  };
+}
+
+export function logout() {
+  return {
+    type: SESSION_DESTROY,
   };
 }

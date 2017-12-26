@@ -19,6 +19,7 @@ import {
   SET_SESSION,
   RESTORE_SESSION,
   SESSION_LOADED,
+  SESSION_DESTROY,
 } from './constants';
 
 // The initial state of the App
@@ -42,6 +43,10 @@ function appReducer(state = initialState, action) {
         .set('currentUser', action.currentUser)
         .set('token', action.token);
     case RESTORE_SESSION:
+      return state
+        .set('loading', true)
+        .set('error', false);
+    case SESSION_DESTROY:
       return state
         .set('loading', true)
         .set('error', false);
