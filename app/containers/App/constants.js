@@ -11,5 +11,8 @@
 
 export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
 export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
+export const SET_SESSION = 'boilerplate/App/SET_SESSION';
+export const RESTORE_SESSION = 'boilerplate/App/RESTORE_SESSION';
 export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
+export const SESSION_LOADED = 'boilerplate/App/SESSION_LOADED';
 export const DEFAULT_LOCALE = 'en';

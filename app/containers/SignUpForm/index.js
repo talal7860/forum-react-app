@@ -1,25 +1,27 @@
 /**
  *
- * Login
+ * SignUpForm
  *
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+// import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import AlertError from 'components/AlertError';
-import { makeSelectError, makeSelectLoading } from './selectors';
+import { makeSelectSignUpForm, makeSelectError, makeSelectLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+// import messages from './messages';
+import { signUp, unmount } from './actions';
 import Form from './Form';
-import { login, unmount } from './actions';
 
-export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class SignUpForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -30,7 +32,7 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
   }
 
   onSubmit(values) {
-    this.props.onLogin(values);
+    this.props.onSignUp(values);
   }
 
   render() {
@@ -43,15 +45,15 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
     return (
       <div>
         <AlertError error={error} />
-        {loading ? 'Loging In...' : null}
+        {loading ? 'Loading...' : null }
         <Form onSubmit={this.onSubmit} />
       </div>
     );
   }
 }
 
-Login.propTypes = {
-  onLogin: PropTypes.func,
+SignUpForm.propTypes = {
+  onSignUp: PropTypes.func,
   onUnmount: PropTypes.func,
   error: PropTypes.oneOfType([
     PropTypes.string,
@@ -61,24 +63,25 @@ Login.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  signupform: makeSelectSignUpForm(),
   error: makeSelectError(),
   loading: makeSelectLoading(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLogin: (params) => dispatch(login(params)),
+    onSignUp: (params) => dispatch(signUp(params)),
     onUnmount: () => dispatch(unmount()),
   };
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'login', reducer });
-const withSaga = injectSaga({ key: 'login', saga });
+const withReducer = injectReducer({ key: 'signUpForm', reducer });
+const withSaga = injectSaga({ key: 'signUpForm', saga });
 
 export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(Login);
+)(SignUpForm);

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { Form, Button } from 'reactstrap';
+import { Field, reduxForm } from 'redux-form/immutable';
+import { Form, Button, Col } from 'reactstrap';
 import Input from 'components/Input';
 import PropTypes from 'prop-types';
-import { required, email } from 'utils/validations';
+import { required, email, minLength8 } from 'utils/validations';
 
 const LoginForm = ({ handleSubmit, pristine, submitting }) => (
   <Form onSubmit={handleSubmit}>
@@ -12,6 +12,7 @@ const LoginForm = ({ handleSubmit, pristine, submitting }) => (
       component={Input}
       type="email"
       placeholder="Email"
+      label="Email"
       validate={[required, email]}
     />
     <Field
@@ -19,9 +20,12 @@ const LoginForm = ({ handleSubmit, pristine, submitting }) => (
       component={Input}
       type="password"
       placeholder="Password"
-      validate={[required]}
+      label="Password"
+      validate={[required, minLength8]}
     />
-    <Button type="submit" disabled={pristine && submitting}>Login</Button>
+    <Col>
+      <Button color="primary" className="float-right" type="submit" disabled={pristine && submitting}>Login</Button>
+    </Col>
   </Form>
 );
 

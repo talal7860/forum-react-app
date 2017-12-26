@@ -15,11 +15,16 @@
  *    }
  */
 
+import { getOr } from 'lodash/fp';
 import {
   LOAD_REPOS,
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS_ERROR,
+  SET_SESSION,
+  SESSION_LOADED,
+  RESTORE_SESSION,
 } from './constants';
+
 
 /**
  * Load the repositories, this action starts the request saga
@@ -59,5 +64,31 @@ export function repoLoadingError(error) {
   return {
     type: LOAD_REPOS_ERROR,
     error,
+  };
+}
+/**
+ * Dispatched on when a session has to be set
+ */
+export function setSession(currentUser) {
+  return {
+    type: SET_SESSION,
+    currentUser,
+    token: getOr(false, 'token', currentUser),
+  };
+}
+/**
+ * Dispatchd on app load to restore persisted session
+ */
+export function restoreSession() {
+  return {
+    type: RESTORE_SESSION,
+  };
+}
+
+export function sessionLoaded(currentUser) {
+  return {
+    type: SESSION_LOADED,
+    currentUser,
+    token: getOr(false, 'token', currentUser),
   };
 }

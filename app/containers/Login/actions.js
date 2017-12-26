@@ -8,12 +8,19 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  LOGIN_UNMOUNT,
 } from './constants';
 
 export function login(params) {
   return {
     type: LOGIN,
     params,
+  };
+}
+
+export function unmount() {
+  return {
+    type: LOGIN_UNMOUNT,
   };
 }
 

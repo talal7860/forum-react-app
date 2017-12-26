@@ -9,6 +9,7 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  LOGIN_UNMOUNT,
 } from './constants';
 
 const initialState = fromJS({
@@ -37,6 +38,8 @@ function loginReducer(state = initialState, action) {
       return state
         .set('error', action.error)
         .set('loading', false);
+    case LOGIN_UNMOUNT:
+      return initialState;
     default:
       return state;
   }

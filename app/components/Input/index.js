@@ -11,9 +11,9 @@ import PropTypes from 'prop-types';
 
 const Input = ({ input, label, type, meta: { touched, error }, placeholder }) => (
   <FormGroup>
-    {label ? <Label for={label}>{label}</Label> : null}
+    {label ? <Col><Label for={label}>{label}</Label></Col> : null}
     <Col>
-      <BInput {...input} type={type} valid={!touched || (touched && error)} placeholder={placeholder} />
+      <BInput {...input} type={type} valid={(!touched) || (touched && !error)} placeholder={placeholder} />
       {(touched && error) ? <FormFeedback>{error}</FormFeedback> : null}
     </Col>
   </FormGroup>

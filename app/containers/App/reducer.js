@@ -16,6 +16,9 @@ import {
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS,
   LOAD_REPOS_ERROR,
+  SET_SESSION,
+  RESTORE_SESSION,
+  SESSION_LOADED,
 } from './constants';
 
 // The initial state of the App
@@ -23,6 +26,7 @@ const initialState = fromJS({
   loading: false,
   error: false,
   currentUser: false,
+  token: false,
   userData: {
     repositories: false,
   },
@@ -30,6 +34,17 @@ const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_SESSION:
+    case SESSION_LOADED:
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('currentUser', action.currentUser)
+        .set('token', action.token);
+    case RESTORE_SESSION:
+      return state
+        .set('loading', true)
+        .set('error', false);
     case LOAD_REPOS:
       return state
         .set('loading', true)
