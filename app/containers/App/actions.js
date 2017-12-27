@@ -17,9 +17,9 @@
 
 import { getOr } from 'lodash/fp';
 import {
-  LOAD_REPOS,
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS_ERROR,
+  LOAD_FORUMS,
+  LOAD_FORUMS_SUCCESS,
+  LOAD_FORUMS_ERROR,
   SET_SESSION,
   SESSION_LOADED,
   RESTORE_SESSION,
@@ -28,42 +28,40 @@ import {
 
 
 /**
- * Load the repositories, this action starts the request saga
+ * Load the forums, this action starts the request saga
  *
- * @return {object} An action object with a type of LOAD_REPOS
+ * @return {object} An action object with a type of LOAD_FORUMS
  */
-export function loadRepos() {
+export function loadForums() {
   return {
-    type: LOAD_REPOS,
+    type: LOAD_FORUMS,
   };
 }
 
 /**
  * Dispatched when the repositories are loaded by the request saga
  *
- * @param  {array} repos The repository data
- * @param  {string} username The current username
+ * @param  {array} forums The forum data
  *
- * @return {object}      An action object with a type of LOAD_REPOS_SUCCESS passing the repos
+ * @return {object}      An action object with a type of LOAD_FORUMS_SUCCESS passing the repos
  */
-export function reposLoaded(repos, username) {
+export function forumsLoaded(forums) {
   return {
-    type: LOAD_REPOS_SUCCESS,
-    repos,
-    username,
+    type: LOAD_FORUMS_SUCCESS,
+    forums,
   };
 }
 
 /**
- * Dispatched when loading the repositories fails
+ * Dispatched when loading the forums fails
  *
  * @param  {object} error The error
  *
- * @return {object}       An action object with a type of LOAD_REPOS_ERROR passing the error
+ * @return {object}       An action object with a type of LOAD_FORUMS_ERROR passing the error
  */
-export function repoLoadingError(error) {
+export function forumLoadingError(error) {
   return {
-    type: LOAD_REPOS_ERROR,
+    type: LOAD_FORUMS_ERROR,
     error,
   };
 }

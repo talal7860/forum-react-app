@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import PropTypes from 'prop-types';
+import DropdownItem from 'components/DropdownItem';
 
 import Profile from './profile.png';
 
@@ -11,16 +12,6 @@ const Img = styled.img`
 
 const AvatarDropdown = styled(Dropdown)`
   margin-left: 10px;
-`;
-
-const DropdownItem = styled.div`
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 300;
-  line-height: 1.42857143;
-  color: #333;
-  white-space: nowrap;
 `;
 
 class Avatar extends React.Component {

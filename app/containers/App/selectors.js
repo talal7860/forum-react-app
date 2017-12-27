@@ -3,6 +3,7 @@
  */
 
 import { createSelector } from 'reselect';
+import { nth } from 'lodash/fp';
 
 const selectGlobal = (state) => state.get('global');
 
@@ -23,9 +24,9 @@ const makeSelectError = () => createSelector(
   (globalState) => globalState.get('error')
 );
 
-const makeSelectRepos = () => createSelector(
+const makeSelectForums = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.getIn(['userData', 'repositories'])
+  (globalState) => globalState.get('forums')
 );
 
 const makeSelectLocation = () => createSelector(
@@ -33,11 +34,21 @@ const makeSelectLocation = () => createSelector(
   (routeState) => routeState.get('location').toJS()
 );
 
+const makeSelectGetSelectedForumSlug = () => createSelector(
+  selectRoute,
+  (routeState) => {
+    const location = routeState.get('location').toJS();
+    return nth(2, location.pathname.split('/'));
+  }
+);
+
+
 export {
   selectGlobal,
   makeSelectCurrentUser,
   makeSelectLoading,
   makeSelectError,
-  makeSelectRepos,
+  makeSelectForums,
   makeSelectLocation,
+  makeSelectGetSelectedForumSlug,
 };
