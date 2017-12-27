@@ -7,80 +7,56 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import { filter, getOr, first, isUndefined } from 'lodash/fp';
 
 import injectReducer from 'utils/injectReducer';
+import PostDetail from 'components/PostDetail';
 import injectSaga from 'utils/injectSaga';
-import H2 from 'components/H2';
-import AtPrefix from './AtPrefix';
-import CenteredSection from './CenteredSection';
-import Form from './Form';
-import Input from './Input';
-import Section from './Section';
-import messages from './messages';
-import { makeSelectUsername } from './selectors';
+import { makeSelectForums, makeSelectGetSelectedForumSlug } from 'containers/App/selectors';
+import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import reducer from './reducer';
 import saga from './saga';
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  /**
-   * when initial state username is not null, submit the form to load repos
-   */
-  componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
-    }
-  }
-
   render() {
+    const {
+      props: {
+        forumSlug,
+        forums,
+      },
+    } = this;
+    const forum = forums ? first(filter((f) => f.slug === forumSlug, forums.data)) : false;
+    const title = forum ? forum.title : 'Forums Loading...';
+
     return (
-      <article>
-        <Helmet>
-          <title>Home Page</title>
-          <meta name="description" content="A React.js Boilerplate application homepage" />
-        </Helmet>
-        <div>
-          <CenteredSection>
-            <H2>
-              <FormattedMessage {...messages.startProjectHeader} />
-            </H2>
-            <p>
-              <FormattedMessage {...messages.startProjectMessage} />
-            </p>
-          </CenteredSection>
-          <Section>
-            <H2>
-              <FormattedMessage {...messages.trymeHeader} />
-            </H2>
-            <Form onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">
-                <FormattedMessage {...messages.trymeMessage} />
-                <AtPrefix>
-                  <FormattedMessage {...messages.trymeAtPrefix} />
-                </AtPrefix>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="mxstbr"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
-                />
-              </label>
-            </Form>
-          </Section>
-        </div>
-      </article>
+      <div>
+        {isUndefined(forum) ?
+          <NotFoundPage />
+          : (<article>
+            <Helmet>
+              <title>{title}</title>
+              <meta name="description" content={getOr('Loading...', 'description', forum)} />
+            </Helmet>
+            <PostDetail post={forum} />
+          </article>)
+        }
+      </div>
     );
   }
 }
 
 HomePage.propTypes = {
-  onSubmitForm: PropTypes.func,
-  username: PropTypes.string,
-  onChangeUsername: PropTypes.func,
+  forumSlug: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+  ]),
+  forums: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+  ]),
 };
 
 export function mapDispatchToProps() {
@@ -89,7 +65,8 @@ export function mapDispatchToProps() {
 }
 
 const mapStateToProps = createStructuredSelector({
-  username: makeSelectUsername(),
+  forums: makeSelectForums(),
+  forumSlug: makeSelectGetSelectedForumSlug(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

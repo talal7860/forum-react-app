@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import DropdownItem from 'components/DropdownItem';
+import { filter, first, getOr } from 'lodash/fp';
 
 const DropdownS = styled(Dropdown)`
   > button {
@@ -16,27 +19,29 @@ const DropDownMenuS = styled(DropdownMenu)`
   overflow: auto;
 `;
 
-const DropdownItem = styled.div`
-  display: block;
-  padding: 3px 20px;
-  clear: both;
-  font-weight: 300;
-  line-height: 1.42857143;
-  color: #333;
-  white-space: nowrap;
-  &:hover {
-    background-color: #e8e8e8a8;
-  }
-`;
-
 class ForumDropdown extends React.Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    this.onSelect = this.onSelect.bind(this);
     this.state = {
       dropdownOpen: false,
+      selectedForum: false,
     };
+  }
+
+  componentWillUpdate() {
+    // this.selectForum();
+  }
+
+  onSelect(e, forum) {
+    e.preventDefault();
+    const {
+      props: { history },
+    } = this;
+    history.push(`/forums/${forum.slug}`);
+    this.toggle();
   }
 
   toggle() {
@@ -47,8 +52,11 @@ class ForumDropdown extends React.Component {
 
   render() {
     const {
-      props: { forums },
+      onSelect,
+      props: { forums, forumSlug },
     } = this;
+    const selectedForum = forums ? first(filter((forum) => forum.slug === forumSlug, forums.data)) : false;
+
     return (
       <DropdownS isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle
@@ -58,11 +66,11 @@ class ForumDropdown extends React.Component {
           aria-expanded={this.state.dropdownOpen}
           caret
         >
-          Forum 1
+          {getOr('Loading...', 'title', selectedForum)}
         </DropdownToggle>
         <DropDownMenuS>
           {forums ? forums.data.map((forum) => (
-            <DropdownItem key={`forum-${forum.slug}`}>{forum.title}</DropdownItem>
+            <DropdownItem onClick={(e) => onSelect(e, forum)} key={`forum-${forum.slug}`}>{forum.title}</DropdownItem>
           )) : <DropdownItem>Loading...</DropdownItem>}
         </DropDownMenuS>
       </DropdownS>
@@ -74,5 +82,10 @@ ForumDropdown.propTypes = {
     PropTypes.object,
     PropTypes.bool,
   ]),
+  forumSlug: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.bool,
+  ]),
+  history: PropTypes.object.isRequired,
 };
-export default ForumDropdown;
+export default withRouter(ForumDropdown);

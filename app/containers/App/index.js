@@ -17,7 +17,6 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 import HomePage from 'containers/HomePage/Loadable';
-import Login from 'containers/Login';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -43,7 +42,7 @@ class App extends React.Component {
         <Header />
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/forums/:slug" component={HomePage} />
           <Route path="" component={NotFoundPage} />
         </Switch>
         <Footer />

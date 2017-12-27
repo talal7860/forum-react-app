@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-import { makeSelectCurrentUser, makeSelectForums } from 'containers/App/selectors';
+import { makeSelectCurrentUser, makeSelectForums, makeSelectGetSelectedForumSlug } from 'containers/App/selectors';
 import { logout, loadForums } from 'containers/App/actions';
 import ForumDropdown from 'components/ForumDropdown';
 import LoginModal from 'components/LoginModal';
@@ -62,7 +62,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 
   render() {
     const {
-      props: { history, currentUser, onLogout, forums },
+      props: { history, currentUser, onLogout, forums, forumSlug },
       state: { openLogin, openSignUp },
       toggleLogin,
       toggleSignUp,
@@ -81,7 +81,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
                 </Link>
               </Col>
               <SelectTopic lg="3" xs="9" sm="5" md="2">
-                <ForumDropdown forums={forums} />
+                <ForumDropdown forums={forums} forumSlug={forumSlug} />
               </SelectTopic>
               <SearchBox lg="4" md="3" className="hidden-xs hidden-sm">
                 <Wrap>
@@ -118,6 +118,10 @@ Header.propTypes = {
     PropTypes.object,
     PropTypes.bool,
   ]),
+  forumSlug: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.bool,
+  ]),
   onLogout: PropTypes.func.isRequired,
   onLoadForums: PropTypes.func.isRequired,
 };
@@ -125,6 +129,7 @@ Header.propTypes = {
 const mapStateToProps = createStructuredSelector({
   currentUser: makeSelectCurrentUser(),
   forums: makeSelectForums(),
+  forumSlug: makeSelectGetSelectedForumSlug(),
 });
 
 export function mapDispatchToProps(dispatch) {
