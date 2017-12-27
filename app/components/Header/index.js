@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-import { makeSelectCurrentUser } from 'containers/App/selectors';
-import { logout } from 'containers/App/actions';
+import { makeSelectCurrentUser, makeSelectForums } from 'containers/App/selectors';
+import { logout, loadForums } from 'containers/App/actions';
 import ForumDropdown from 'components/ForumDropdown';
 import LoginModal from 'components/LoginModal';
 import SignUpModal from 'components/SignUpModal';
@@ -44,6 +44,10 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     this.state = { openLogin: false, openSignUp: false };
   }
 
+  componentDidMount() {
+    this.props.onLoadForums();
+  }
+
   onSubmit(values) {
     console.log(values); //eslint-disable-line
   }
@@ -58,7 +62,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
 
   render() {
     const {
-      props: { history, currentUser, onLogout },
+      props: { history, currentUser, onLogout, forums },
       state: { openLogin, openSignUp },
       toggleLogin,
       toggleSignUp,
@@ -77,7 +81,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
                 </Link>
               </Col>
               <SelectTopic lg="3" xs="9" sm="5" md="2">
-                <ForumDropdown />
+                <ForumDropdown forums={forums} />
               </SelectTopic>
               <SearchBox lg="4" md="3" className="hidden-xs hidden-sm">
                 <Wrap>
@@ -110,16 +114,23 @@ Header.propTypes = {
     PropTypes.object,
     PropTypes.bool,
   ]),
+  forums: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.bool,
+  ]),
   onLogout: PropTypes.func.isRequired,
+  onLoadForums: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   currentUser: makeSelectCurrentUser(),
+  forums: makeSelectForums(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
     onLogout: () => dispatch(logout()),
+    onLoadForums: () => dispatch(loadForums()),
   };
 }
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

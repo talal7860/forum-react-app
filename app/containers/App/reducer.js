@@ -13,9 +13,9 @@
 import { fromJS } from 'immutable';
 
 import {
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS,
-  LOAD_REPOS_ERROR,
+  LOAD_FORUMS_SUCCESS,
+  LOAD_FORUMS,
+  LOAD_FORUMS_ERROR,
   SET_SESSION,
   RESTORE_SESSION,
   SESSION_LOADED,
@@ -28,9 +28,7 @@ const initialState = fromJS({
   error: false,
   currentUser: false,
   token: false,
-  userData: {
-    repositories: false,
-  },
+  forums: false,
 });
 
 function appReducer(state = initialState, action) {
@@ -50,17 +48,16 @@ function appReducer(state = initialState, action) {
       return state
         .set('loading', true)
         .set('error', false);
-    case LOAD_REPOS:
+    case LOAD_FORUMS:
       return state
         .set('loading', true)
         .set('error', false)
-        .setIn(['userData', 'repositories'], false);
-    case LOAD_REPOS_SUCCESS:
+        .set('forums', false);
+    case LOAD_FORUMS_SUCCESS:
       return state
-        .setIn(['userData', 'repositories'], action.repos)
-        .set('loading', false)
-        .set('currentUser', action.username);
-    case LOAD_REPOS_ERROR:
+        .set('forums', action.forums)
+        .set('loading', false);
+    case LOAD_FORUMS_ERROR:
       return state
         .set('error', action.error)
         .set('loading', false);

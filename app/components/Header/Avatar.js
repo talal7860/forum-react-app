@@ -21,6 +21,9 @@ const DropdownItem = styled.div`
   line-height: 1.42857143;
   color: #333;
   white-space: nowrap;
+  &:hover {
+    background-color: #e8e8e8a8;
+  }
 `;
 
 class Avatar extends React.Component {
