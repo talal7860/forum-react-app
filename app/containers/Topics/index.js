@@ -14,6 +14,7 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import PostDetail from 'components/PostDetail';
 import AlertError from 'components/AlertError';
+import Pagination from 'components/Pagination';
 import { makeSelectTopics, makeSelectLoading, makeSelectError } from './selectors';
 import { loadTopics, unloadTopics } from './actions';
 import reducer from './reducer';
@@ -41,6 +42,7 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
       <div>
         { loading ? 'Loading...' : null }
         <AlertError error={error} />
+        { topics ? <Pagination meta={topics.meta} /> : null }
         { topics ? topics.data.map((topic) => (
           <PostDetail key={`topic-${topic.slug}`} post={topic} />
         )) : null }

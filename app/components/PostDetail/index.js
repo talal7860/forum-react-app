@@ -89,6 +89,10 @@ const Status = styled.div`
   border: solid 2px #ffffff;
 `;
 
+const I = styled.i`
+  padding-right: 18px;
+`
+
 const PostDetail = ({
   post: {
     slug,
@@ -118,7 +122,7 @@ const PostDetail = ({
         </Prev>
         <Posted key={`posted-${key}`} className="posted float-left"><i className="fa fa-clock-o" /> Posted on : {createdAt}</Posted>
         <Next key={`posted-next-${key}`} className="float-right">
-          <A key={`posted-next-a-${key}`} href="#"><i className="fa fa-share" /></A>
+          <A key={`posted-next-a-${key}`} href="#"><I className="fa fa-share" /></A>
           <A key={`posted-next-flag-a-${key}`} href="#"><i className="fa fa-flag" /></A>
         </Next>
         <div key={`posted-next-clearfix-${key}`} className="clearfix" />
