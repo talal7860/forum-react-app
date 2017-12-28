@@ -89,8 +89,14 @@ const Status = styled.div`
   border: solid 2px #ffffff;
 `;
 
-const PostDetail = ({ post }) => {
-  const key = `post-${post.slug}`;
+const PostDetail = ({
+  post: {
+    slug,
+    title,
+    description,
+    created_at: createdAt,
+  } }) => {
+  const key = `post-${slug}`;
   return (
     <PostWrapper key={`post-wrapper-${key}`}>
       <div key={`top-wrapper-${key}`} className="topwrap">
@@ -101,8 +107,8 @@ const PostDetail = ({ post }) => {
           </Avatar>
         </UserInfo>
         <PostText key={`post-text-${key}`} className="float-left">
-          <H2 key={`h2-${key}`}>{post.title}</H2>
-          <p key={`post-text-p-${key}`}>{post.description}</p>
+          <H2 key={`h2-${key}`}>{title}</H2>
+          <p key={`post-text-p-${key}`}>{description}</p>
         </PostText>
         <div key={`post-text-clearfix-${key}`} className="clearfix" />
       </div>
@@ -110,7 +116,7 @@ const PostDetail = ({ post }) => {
         <Prev key={`post-info-prev-${key}`} className="float-left">
           <A key={`post-info-prev-a-${key}`} href="#"><i className="fa fa-reply" /></A>
         </Prev>
-        <Posted key={`posted-${key}`} className="posted float-left"><i className="fa fa-clock-o" /> Posted on : 20 Nov @ 9:30am</Posted>
+        <Posted key={`posted-${key}`} className="posted float-left"><i className="fa fa-clock-o" /> Posted on : {createdAt}</Posted>
         <Next key={`posted-next-${key}`} className="float-right">
           <A key={`posted-next-a-${key}`} href="#"><i className="fa fa-share" /></A>
           <A key={`posted-next-flag-a-${key}`} href="#"><i className="fa fa-flag" /></A>
