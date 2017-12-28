@@ -7,8 +7,13 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-import { makeSelectCurrentUser, makeSelectForums, makeSelectGetSelectedForumSlug } from 'containers/App/selectors';
+import {
+  makeSelectCurrentUser,
+  makeSelectForums,
+  makeSelectGetSelectedForumSlug,
+} from 'containers/App/selectors';
 import { logout, loadForums } from 'containers/App/actions';
+import { searchTopics } from 'containers/Topics/actions';
 import ForumDropdown from 'components/ForumDropdown';
 import LoginModal from 'components/LoginModal';
 import SignUpModal from 'components/SignUpModal';
@@ -49,7 +54,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
   }
 
   onSubmit(values) {
-    console.log(values); //eslint-disable-line
+    this.props.onSearchTopics(values.q);
   }
 
   toggleLogin() {
@@ -124,6 +129,7 @@ Header.propTypes = {
   ]),
   onLogout: PropTypes.func.isRequired,
   onLoadForums: PropTypes.func.isRequired,
+  onSearchTopics: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -136,6 +142,7 @@ export function mapDispatchToProps(dispatch) {
   return {
     onLogout: () => dispatch(logout()),
     onLoadForums: () => dispatch(loadForums()),
+    onSearchTopics: (q) => dispatch(searchTopics(q)),
   };
 }
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

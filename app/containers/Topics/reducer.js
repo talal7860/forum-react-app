@@ -10,6 +10,7 @@ import {
   LOAD_TOPICS_SUCCESS,
   LOAD_TOPICS_ERROR,
   LOAD_TOPICS_UNLOAD,
+  SEARCH_TOPICS,
 } from './constants';
 
 const initialState = fromJS({
@@ -17,6 +18,7 @@ const initialState = fromJS({
   error: false,
   forumSlug: false,
   loading: false,
+  q: false,
 });
 
 function topicsReducer(state = initialState, action) {
@@ -26,6 +28,11 @@ function topicsReducer(state = initialState, action) {
         .set('loading', true)
         .set('error', false)
         .set('forumSlug', action.forumSlug);
+    case SEARCH_TOPICS:
+      return state
+        .set('loading', true)
+        .set('error', false)
+        .set('q', action.q);
     case LOAD_TOPICS_SUCCESS:
       return state
         .set('loading', false)

@@ -24,6 +24,11 @@ const makeSelectForumSlug = () => createSelector(
   (substate) => substate.get('forumSlug')
 );
 
+const makeSelectQuery = () => createSelector(
+  selectTopicsDomain,
+  (substate) => substate.get('q')
+);
+
 const makeSelectLoading = () => createSelector(
   selectTopicsDomain,
   (substate) => substate.get('loading')
@@ -40,4 +45,5 @@ export {
   makeSelectForumSlug,
   makeSelectLoading,
   makeSelectError,
+  makeSelectQuery,
 };
