@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import injectSaga from 'utils/injectSaga';
 import { Switch, Route } from 'react-router-dom';
@@ -22,6 +23,11 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import { restoreSession } from './actions';
 import saga from './saga';
+
+const Content = styled.div`
+  background-color: #ecf0f1;
+  border-top: solid 1px #e0e4e5;
+`;
 
 
 class App extends React.Component {
@@ -40,11 +46,13 @@ class App extends React.Component {
           <meta name="description" content="A React.js Forum" />
         </Helmet>
         <Header />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/forums/:slug" component={HomePage} />
-          <Route path="" component={NotFoundPage} />
-        </Switch>
+        <Content>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/forums/:slug" component={HomePage} />
+            <Route path="" component={NotFoundPage} />
+          </Switch>
+        </Content>
         <Footer />
       </Container>
     );

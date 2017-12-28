@@ -83,7 +83,7 @@ ForumDropdown.propTypes = {
     PropTypes.bool,
   ]),
   forumSlug: PropTypes.oneOfType([
-    PropTypes.object,
+    PropTypes.string,
     PropTypes.bool,
   ]),
   history: PropTypes.object.isRequired,

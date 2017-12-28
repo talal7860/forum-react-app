@@ -38,7 +38,7 @@ const makeSelectGetSelectedForumSlug = () => createSelector(
   selectRoute,
   (routeState) => {
     const location = routeState.get('location').toJS();
-    return nth(2, location.pathname.split('/'));
+    return nth(2, location.pathname.split('/')) || false;
   }
 );
 

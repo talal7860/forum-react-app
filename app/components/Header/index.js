@@ -119,7 +119,7 @@ Header.propTypes = {
     PropTypes.bool,
   ]),
   forumSlug: PropTypes.oneOfType([
-    PropTypes.object,
+    PropTypes.string,
     PropTypes.bool,
   ]),
   onLogout: PropTypes.func.isRequired,
