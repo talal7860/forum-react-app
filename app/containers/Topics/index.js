@@ -52,7 +52,7 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
 
     return (
       <div>
-        { loading ? 'Loading...' : null }
+        { loading ? <Alert color="danger">Loading...</Alert> : null }
         <AlertError error={error} />
         { topics && !isEmpty(topics.data) ?
           <div>

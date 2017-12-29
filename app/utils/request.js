@@ -1,4 +1,6 @@
 import 'whatwg-fetch';
+import { getCurrentUserToken } from 'utils/persistUser';
+import { merge } from 'lodash/fp';
 
 /**
  * Parses the JSON returned by a network request
@@ -47,8 +49,17 @@ async function checkStatus(response) {
  *
  * @return {object}           The response data
  */
-export default function request(url, options) {
-  return fetch(url, options)
+async function request(url, options) {
+  let requestOptions = {};
+  try {
+    const token = await getCurrentUserToken();
+    if (token) {
+      requestOptions = merge({ headers: { Authorization: token } }, options);
+    }
+  } catch (e) {
+    requestOptions = options;
+  }
+  return fetch(url, requestOptions)
     .then(checkStatus)
     .then(parseJSON);
 }
@@ -72,3 +83,4 @@ export function postRequest(url, data = {}) {
   };
   return request(url, options);
 }
+export default request;

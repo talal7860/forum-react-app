@@ -8,13 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Profile from 'components/Header/profile.png';
-
-const PostWrapper = styled.div`
-  background-color: #ffffff;
-  border-radius: 2px;
-  box-shadow: 0 1px 2px #c9cccd;
-  margin-bottom: 20px;
-`;
+import PostWrapper from './PostWrapper';
 
 const UserInfo = styled.div`
   padding: 20px 0 15px 15px;

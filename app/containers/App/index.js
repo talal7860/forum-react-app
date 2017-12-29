@@ -18,10 +18,13 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 import HomePage from 'containers/HomePage/Loadable';
+import TopicNew from 'containers/TopicNew/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
+import Breadcumb from 'components/Breadcumb';
 import Footer from 'components/Footer';
 import { restoreSession } from './actions';
+import { makeSelectGetSelectedForumSlug, makeSelectLocation } from './selectors';
 import saga from './saga';
 
 const Content = styled.div`
@@ -37,6 +40,7 @@ class App extends React.Component {
   }
 
   render() {
+    const { props: { forumSlug } } = this;
     return (
       <Container fluid>
         <Helmet
@@ -46,10 +50,12 @@ class App extends React.Component {
           <meta name="description" content="A React.js Forum" />
         </Helmet>
         <Header />
+        <Breadcumb />
         <Content>
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/forums/:slug" component={HomePage} />
+            {forumSlug ? <Route exact path={`/forums/${forumSlug}/topics/new`} component={TopicNew} /> : null}
             <Route path="" component={NotFoundPage} />
           </Switch>
         </Content>
@@ -66,10 +72,16 @@ export function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
+  forumSlug: makeSelectGetSelectedForumSlug(),
+  location: makeSelectLocation(),
 });
 
 App.propTypes = {
   restoreSession: PropTypes.func.isRequired,
+  forumSlug: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+  ]),
 };
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
