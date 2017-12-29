@@ -13,6 +13,9 @@ const PrevNext = styled.a`
   color: #cfd5d7 !important;
   margin-top: 11px;
   display: block;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const PrevNextLast = styled(PrevNext)`
@@ -31,6 +34,9 @@ const PaginationLi = styled.li`
 `;
 
 const PaginationA = styled.a`
+  &:hover {
+    cursor: pointer;
+  }
   min-width: 24px;
   height: 24px;
   font-size: 14px;
@@ -50,36 +56,113 @@ const PaginationA = styled.a`
   }
 `;
 
+const FlexContainer = styled.div`
+  justify-content: center;
+  display: flex;
+`;
 
-const Pagination = ({ currentPage: current_page, totalPages: total_pages  }) => (
-  <div>
-    <div className="float-left">
-      <PrevNext className="prevnext">
-        <i className="fa fa-angle-left"></i>
-      </PrevNext>
-    </div>
-    <div className="float-left hidden-xs">
-      <PaginationUl>
-        <PaginationLi>
-          <PaginationA className="active">1</PaginationA>
-        </PaginationLi>
-        <PaginationLi>
-          <PaginationA>2</PaginationA>
-        </PaginationLi>
-      </PaginationUl>
-    </div>
-    <div className="float-left">
-      <PrevNextLast className="prevnext"><i className="fa fa-angle-right"></i></PrevNextLast>
-    </div>
-    <div className="clearfix" />
-  </div>
-);
+
+class Pagination extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.onNext = this.onNext.bind(this);
+    this.onPrev = this.onPrev.bind(this);
+    this.onPageChange = this.onPageChange.bind(this);
+  }
+
+  onNext(e) {
+    e.preventDefault();
+    const {
+      props: {
+        meta: {
+          current_page: currentPage,
+          total_pages: totalPages,
+        },
+        onPageChange,
+      },
+    } = this;
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  }
+
+  onPrev(e) {
+    e.preventDefault();
+    const {
+      props: {
+        meta: {
+          current_page: currentPage,
+        },
+        onPageChange,
+      },
+    } = this;
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  }
+
+  onPageChange(e, page) {
+    e.preventDefault();
+    this.props.onPageChange(page);
+  }
+
+  render() {
+    const {
+      onNext,
+      onPrev,
+      onPageChange,
+      props: {
+        meta: {
+          current_page: currentPage,
+          total_pages: totalPages,
+        },
+        position,
+      },
+    } = this;
+    const pages = [];
+    for (let i = 1; i <= totalPages; i += 1) {
+      pages[i - 1] = i;
+    }
+
+    return (
+      <div>
+        { totalPages > 1 ? (
+          <FlexContainer>
+            <div className="float-left">
+              <PrevNext onClick={onPrev} className="prevnext">
+                <i className="fa fa-angle-left"></i>
+              </PrevNext>
+            </div>
+            <div className="float-left hidden-xs">
+              <PaginationUl>
+                { (pages).map((page) => (
+                  <PaginationLi key={`${position}-page-${page}`}>
+                    <PaginationA onClick={(e) => onPageChange(e, page)} key={`${position}-page-a-${page}`} className={page === currentPage ? 'active' : null}>
+                      {page}
+                    </PaginationA>
+                  </PaginationLi>
+                )) }
+              </PaginationUl>
+            </div>
+            <div className="float-left">
+              <PrevNextLast onClick={onNext} className="prevnext"><i className="fa fa-angle-right"></i></PrevNextLast>
+            </div>
+            <div className="clearfix" />
+          </FlexContainer>
+        ) : null }
+      </div>
+    );
+  }
+}
 
 Pagination.propTypes = {
   meta: PropTypes.shape({
     currentPage: PropTypes.number,
     totalPages: PropTypes.number,
   }),
+  onPageChange: PropTypes.func.isRequired,
+  position: PropTypes.string,
 };
 
 export default Pagination;

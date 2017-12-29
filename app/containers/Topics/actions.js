@@ -6,6 +6,7 @@
 
 import {
   LOAD_TOPICS,
+  CHANGE_PAGE,
   LOAD_TOPICS_SUCCESS,
   LOAD_TOPICS_ERROR,
   LOAD_TOPICS_UNLOAD,
@@ -16,6 +17,13 @@ export function loadTopics(forumSlug) {
   return {
     type: LOAD_TOPICS,
     forumSlug,
+  };
+}
+
+export function changePage(page) {
+  return {
+    type: CHANGE_PAGE,
+    page,
   };
 }
 

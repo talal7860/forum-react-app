@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Alert } from 'reactstrap';
+import { isEmpty } from 'lodash/fp';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -16,11 +18,15 @@ import PostDetail from 'components/PostDetail';
 import AlertError from 'components/AlertError';
 import Pagination from 'components/Pagination';
 import { makeSelectTopics, makeSelectLoading, makeSelectError } from './selectors';
-import { loadTopics, unloadTopics } from './actions';
+import { loadTopics, unloadTopics, changePage } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 
 export class Topics extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.onPageChange = this.onPageChange.bind(this);
+  }
 
   componentDidMount() {
     this.props.onLoad(this.props.forumSlug);
@@ -30,6 +36,10 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
     this.props.onUnLoad();
   }
 
+  onPageChange(page) {
+    this.props.changePage(page);
+  }
+
   render() {
     const {
       props: {
@@ -37,15 +47,16 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
         loading,
         error,
       },
+      onPageChange,
     } = this;
     return (
       <div>
         { loading ? 'Loading...' : null }
         <AlertError error={error} />
-        { topics ? <Pagination meta={topics.meta} /> : null }
-        { topics ? topics.data.map((topic) => (
+        { topics && !isEmpty(topics.data) ? <Pagination meta={topics.meta} onPageChange={onPageChange} /> : null }
+        { topics && !isEmpty(topics.data) ? topics.data.map((topic) => (
           <PostDetail key={`topic-${topic.slug}`} post={topic} />
-        )) : null }
+        )) : <Alert color="warning">No topics found for this forum</Alert> }
       </div>
     );
   }
@@ -54,6 +65,7 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
 Topics.propTypes = {
   onLoad: PropTypes.func.isRequired,
   onUnLoad: PropTypes.func.isRequired,
+  changePage: PropTypes.func.isRequired,
   topics: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
@@ -76,6 +88,7 @@ function mapDispatchToProps(dispatch) {
   return {
     onLoad: (forumSlug) => dispatch(loadTopics(forumSlug)),
     onUnLoad: () => dispatch(unloadTopics()),
+    changePage: (page) => dispatch(changePage(page)),
   };
 }
 

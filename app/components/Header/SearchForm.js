@@ -28,7 +28,7 @@ const SearchBtn = styled(Button)`
   font-size: 18px
 `;
 
-const SearchForm = ({ handleSubmit, pristine, submitting }) => (
+const SearchForm = ({ handleSubmit }) => (
   <Form onSubmit={handleSubmit}>
     <InputDiv className="float-left">
       <Field
@@ -39,7 +39,7 @@ const SearchForm = ({ handleSubmit, pristine, submitting }) => (
       />
     </InputDiv>
     <div className="float-right">
-      <SearchBtn type="submit" disabled={pristine || submitting}>
+      <SearchBtn type="submit">
         <FontAwesome name="search" />
       </SearchBtn>
     </div>
@@ -48,8 +48,6 @@ const SearchForm = ({ handleSubmit, pristine, submitting }) => (
 
 SearchForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  submitting: PropTypes.bool,
-  pristine: PropTypes.bool,
 };
 
 

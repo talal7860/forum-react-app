@@ -91,7 +91,7 @@ const Status = styled.div`
 
 const I = styled.i`
   padding-right: 18px;
-`
+`;
 
 const PostDetail = ({
   post: {

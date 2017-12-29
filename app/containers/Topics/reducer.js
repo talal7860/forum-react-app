@@ -7,6 +7,7 @@
 import { fromJS } from 'immutable';
 import {
   LOAD_TOPICS,
+  CHANGE_PAGE,
   LOAD_TOPICS_SUCCESS,
   LOAD_TOPICS_ERROR,
   LOAD_TOPICS_UNLOAD,
@@ -19,6 +20,7 @@ const initialState = fromJS({
   forumSlug: false,
   loading: false,
   q: false,
+  page: 1,
 });
 
 function topicsReducer(state = initialState, action) {
@@ -28,8 +30,14 @@ function topicsReducer(state = initialState, action) {
         .set('loading', true)
         .set('error', false)
         .set('forumSlug', action.forumSlug);
+    case CHANGE_PAGE:
+      return state
+        .set('loading', true)
+        .set('error', false)
+        .set('page', action.page);
     case SEARCH_TOPICS:
       return state
+        .set('page', 1)
         .set('loading', true)
         .set('error', false)
         .set('q', action.q);

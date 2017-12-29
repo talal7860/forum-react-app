@@ -29,6 +29,11 @@ const makeSelectQuery = () => createSelector(
   (substate) => substate.get('q')
 );
 
+const makeSelectPage = () => createSelector(
+  selectTopicsDomain,
+  (substate) => substate.get('page')
+);
+
 const makeSelectLoading = () => createSelector(
   selectTopicsDomain,
   (substate) => substate.get('loading')
@@ -46,4 +51,5 @@ export {
   makeSelectLoading,
   makeSelectError,
   makeSelectQuery,
+  makeSelectPage,
 };
