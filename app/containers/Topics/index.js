@@ -49,14 +49,20 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
       },
       onPageChange,
     } = this;
+
     return (
       <div>
         { loading ? 'Loading...' : null }
         <AlertError error={error} />
-        { topics && !isEmpty(topics.data) ? <Pagination meta={topics.meta} onPageChange={onPageChange} /> : null }
-        { topics && !isEmpty(topics.data) ? topics.data.map((topic) => (
-          <PostDetail key={`topic-${topic.slug}`} post={topic} />
-        )) : <Alert color="warning">No topics found for this forum</Alert> }
+        { topics && !isEmpty(topics.data) ?
+          <div>
+            <Pagination meta={topics.meta} position="top" onPageChange={onPageChange} />
+            {topics.data.map((topic) => (
+              <PostDetail key={`topic-${topic.slug}`} post={topic} />
+            ))}
+            <Pagination meta={topics.meta} position="bottom" onPageChange={onPageChange} />
+          </div>
+          : <Alert color="warning">No topics found for this forum</Alert> }
       </div>
     );
   }
