@@ -8,13 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Profile from 'components/Header/profile.png';
-
-const PostWrapper = styled.div`
-  background-color: #ffffff;
-  border-radius: 2px;
-  box-shadow: 0 1px 2px #c9cccd;
-  margin-bottom: 20px;
-`;
+import PostWrapper from './PostWrapper';
 
 const UserInfo = styled.div`
   padding: 20px 0 15px 15px;
@@ -89,40 +83,57 @@ const Status = styled.div`
   border: solid 2px #ffffff;
 `;
 
-const PostDetail = ({ post }) => (
-  <PostWrapper>
-    <div className="topwrap">
-      <UserInfo className="float-left">
-        <Avatar>
-          <AvatarImg src={Profile} alt />
-          <Status className="green"></Status>
-        </Avatar>
-      </UserInfo>
-      <PostText className="float-left">
-        <H2>{post.title}</H2>
-        <p>{post.description}</p>
-      </PostText>
-      <div className="clearfix" />
-    </div>
-    <PostInfoBot>
-      <Prev className="float-left">
-        <A href="#"><i className="fa fa-reply" /></A>
-      </Prev>
-      <Posted className="posted float-left"><i className="fa fa-clock-o" /> Posted on : 20 Nov @ 9:30am</Posted>
-      <Next className="float-right">
-        <A href="#"><i className="fa fa-share" /></A>
-        <A href="#"><i className="fa fa-flag" /></A>
-      </Next>
-      <div className="clearfix" />
-    </PostInfoBot>
-  </PostWrapper>
-);
+const I = styled.i`
+  padding-right: 18px;
+`;
+
+const PostDetail = ({
+  post: {
+    slug,
+    title,
+    description,
+    created_at: createdAt,
+  } }) => {
+  const key = `post-${slug}`;
+  return (
+    <PostWrapper key={`post-wrapper-${key}`}>
+      <div key={`top-wrapper-${key}`} className="topwrap">
+        <UserInfo key={`user-info-${key}`} className="float-left">
+          <Avatar key={`avatar-${key}`}>
+            <AvatarImg key={`avatar-img-${key}`} src={Profile} alt />
+            <Status key={`status-${key}`} className="green"></Status>
+          </Avatar>
+        </UserInfo>
+        <PostText key={`post-text-${key}`} className="float-left">
+          <H2 key={`h2-${key}`}>{title}</H2>
+          <p key={`post-text-p-${key}`}>{description}</p>
+        </PostText>
+        <div key={`post-text-clearfix-${key}`} className="clearfix" />
+      </div>
+      <PostInfoBot key={`post-info-bot-${key}`}>
+        <Prev key={`post-info-prev-${key}`} className="float-left">
+          <A key={`post-info-prev-a-${key}`} href="#"><i className="fa fa-reply" /></A>
+        </Prev>
+        <Posted key={`posted-${key}`} className="posted float-left"><i className="fa fa-clock-o" /> Posted on : {createdAt}</Posted>
+        <Next key={`posted-next-${key}`} className="float-right">
+          <A key={`posted-next-a-${key}`} href="#"><I className="fa fa-share" /></A>
+          <A key={`posted-next-flag-a-${key}`} href="#"><i className="fa fa-flag" /></A>
+        </Next>
+        <div key={`posted-next-clearfix-${key}`} className="clearfix" />
+      </PostInfoBot>
+    </PostWrapper>
+  );
+};
 
 PostDetail.propTypes = {
   post: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.bool,
   ]),
+};
+
+PostDetail.defaultProps = {
+  key: 'key',
 };
 
 export default PostDetail;

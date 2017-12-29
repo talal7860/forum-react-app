@@ -6,6 +6,18 @@ injectGlobal`
   body {
     height: 100%;
     width: 100%;
+    font-size: 14px;
+  }
+
+  .btn-primary {
+    background-color: #1abc9c;
+    box-shadow: none;
+    border-radius: 2px;
+    padding: 10px 15px;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Open Sans Bold', sans-serif;
+    border: none;
   }
 
   body {
