@@ -50,7 +50,7 @@ async function checkStatus(response) {
  * @return {object}           The response data
  */
 async function request(url, options) {
-  let requestOptions = {};
+  let requestOptions = options;
   try {
     const token = await getCurrentUserToken();
     if (token) {
