@@ -1,6 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { postRequest } from 'utils/request';
+import { setSession } from 'containers/App/actions';
 import { makeSelectParams } from './selectors';
 import { SIGNUP } from './constants';
 import { signUpSuccess, signUpError } from './actions';
@@ -27,6 +28,7 @@ export function* postSignUp() {
     };
     const user = yield call(postRequest, requestURL, data);
     yield put(signUpSuccess(user));
+    yield put(setSession(user.data));
   } catch (err) {
     yield put(signUpError(err.message));
   }

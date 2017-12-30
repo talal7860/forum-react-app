@@ -33,7 +33,7 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
   }
 
   componentWillUpdate() {
-    this.props.onLoad(this.props.forumSlug);
+    // this.props.onLoad(this.props.forumSlug);
   }
 
   componentWillUnmount() {
