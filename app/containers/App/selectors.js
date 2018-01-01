@@ -42,6 +42,13 @@ const makeSelectGetSelectedForumSlug = () => createSelector(
   }
 );
 
+const makeSelectTopicSlug = () => createSelector(
+  selectRoute,
+  (routeState) => {
+    const location = routeState.get('location').toJS();
+    return nth(4, location.pathname.split('/')) || false;
+  }
+);
 
 export {
   selectGlobal,
@@ -51,4 +58,6 @@ export {
   makeSelectForums,
   makeSelectLocation,
   makeSelectGetSelectedForumSlug,
+  makeSelectGetSelectedForumSlug as makeSelectForumSlug,
+  makeSelectTopicSlug,
 };

@@ -14,11 +14,11 @@ import { filter, getOr, first, isUndefined } from 'lodash/fp';
 import { Container } from 'reactstrap';
 
 import injectReducer from 'utils/injectReducer';
-import PostDetail from 'components/PostDetail';
 import Topics from 'containers/Topics';
 import injectSaga from 'utils/injectSaga';
 import { makeSelectForums, makeSelectGetSelectedForumSlug } from 'containers/App/selectors';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import ForumDetail from './ForumDetail';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -42,7 +42,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
               <title>{title}</title>
               <meta name="description" content={getOr('Loading...', 'description', forum)} />
             </Helmet>
-            <PostDetail post={forum} />
+            <ForumDetail post={forum} />
             <Topics forumSlug={forumSlug} />
           </article>)
         }

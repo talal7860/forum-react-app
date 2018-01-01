@@ -31,7 +31,6 @@ export function searchTopics(q) {
   return {
     type: SEARCH_TOPICS,
     q,
-
   };
 }
 

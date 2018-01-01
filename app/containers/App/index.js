@@ -19,19 +19,23 @@ import PropTypes from 'prop-types';
 
 import HomePage from 'containers/HomePage/Loadable';
 import TopicNew from 'containers/TopicNew/Loadable';
+import Posts from 'containers/Posts/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Breadcumb from 'components/Breadcumb';
 import Footer from 'components/Footer';
 import { restoreSession } from './actions';
-import { makeSelectGetSelectedForumSlug, makeSelectLocation } from './selectors';
+import {
+  makeSelectGetSelectedForumSlug as makeSelectForumSlug,
+  makeSelectLocation,
+  makeSelectTopicSlug,
+} from './selectors';
 import saga from './saga';
 
 const Content = styled.div`
   background-color: #ecf0f1;
   border-top: solid 1px #e0e4e5;
 `;
-
 
 class App extends React.Component {
 
@@ -40,12 +44,12 @@ class App extends React.Component {
   }
 
   render() {
-    const { props: { forumSlug } } = this;
+    const { props: { forumSlug, topicSlug } } = this;
     return (
       <Container fluid>
         <Helmet
-          titleTemplate="%s | React.js Forum"
-          defaultTitle="React.js Forum"
+          titleTemplate="%s | Forum"
+          defaultTitle="Forum"
         >
           <meta name="description" content="A React.js Forum" />
         </Helmet>
@@ -56,6 +60,7 @@ class App extends React.Component {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/forums/:slug" component={HomePage} />
             {forumSlug ? <Route exact path={`/forums/${forumSlug}/topics/new`} component={TopicNew} /> : null}
+            {topicSlug ? <Route exact path={`/forums/${forumSlug}/topics/${topicSlug}/posts`} component={Posts} /> : null}
             <Route path="" component={NotFoundPage} />
           </Switch>
         </Content>
@@ -72,13 +77,18 @@ export function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  forumSlug: makeSelectGetSelectedForumSlug(),
+  forumSlug: makeSelectForumSlug(),
+  topicSlug: makeSelectTopicSlug(),
   location: makeSelectLocation(),
 });
 
 App.propTypes = {
   restoreSession: PropTypes.func.isRequired,
   forumSlug: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+  ]),
+  topicSlug: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string,
   ]),

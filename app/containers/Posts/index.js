@@ -1,6 +1,6 @@
 /**
  *
- * Topics
+ * Posts
  *
  */
 
@@ -11,19 +11,19 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Alert } from 'reactstrap';
 import { isEmpty } from 'lodash/fp';
-import { withRouter } from 'react-router-dom';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import PostDetail from 'components/PostDetail';
 import AlertError from 'components/AlertError';
 import Pagination from 'components/Pagination';
-import ListItem from './ListItem';
-import { makeSelectTopics, makeSelectLoading, makeSelectError } from './selectors';
-import { loadTopics, unloadTopics, changePage } from './actions';
+import { makeSelectGetSelectedForumSlug as makeSelectForumSlug, makeSelectTopicSlug } from 'containers/App/selectors';
+import { makeSelectPosts, makeSelectLoading, makeSelectError } from './selectors';
+import { loadPosts, unloadPosts, changePage } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 
-export class Topics extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class Posts extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.onPageChange = this.onPageChange.bind(this);
@@ -47,50 +47,41 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
     this.props.changePage(page);
   }
 
-  openTopic(topic) {
-    const {
-      props: {
-        forumSlug,
-        history,
-      },
-    } = this;
-    history.push(`/forums/${forumSlug}/topics/${topic.slug}`);
-  }
-
   render() {
     const {
       props: {
-        topics,
+        posts,
         loading,
         error,
+        topicSlug,
       },
       onPageChange,
-      openTopic,
     } = this;
 
     return (
       <div>
-        { loading ? <Alert color="danger">Loading...</Alert> : null }
+        { loading ? <Alert color="warning">Loading...</Alert> : null }
+        {topicSlug}
         <AlertError error={error} />
-        { topics && !isEmpty(topics.data) ?
+        { posts && !isEmpty(posts.data) ?
           <div>
-            <Pagination meta={topics.meta} position="top" onPageChange={onPageChange} />
-            {topics.data.map((topic) => (
-              <ListItem key={`topic-${topic.slug}`} post={topic} onClick={openTopic} />
+            <Pagination meta={posts.meta} position="top" onPageChange={onPageChange} />
+            {posts.data.map((post) => (
+              <PostDetail key={`post-${post.slug}`} post={post} />
             ))}
-            <Pagination meta={topics.meta} position="bottom" onPageChange={onPageChange} />
+            <Pagination meta={posts.meta} position="bottom" onPageChange={onPageChange} />
           </div>
-          : <Alert color="warning">No topics found for this forum</Alert> }
+          : <Alert color="warning">No posts found for this topic</Alert> }
       </div>
     );
   }
 }
 
-Topics.propTypes = {
+Posts.propTypes = {
   onLoad: PropTypes.func.isRequired,
   onUnLoad: PropTypes.func.isRequired,
   changePage: PropTypes.func.isRequired,
-  topics: PropTypes.oneOfType([
+  posts: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
   ]),
@@ -100,31 +91,32 @@ Topics.propTypes = {
   ]),
   loading: PropTypes.bool,
   forumSlug: PropTypes.string.isRequired,
-  history: PropTypes.object.isRequired,
+  topicSlug: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  topics: makeSelectTopics(),
+  posts: makeSelectPosts(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
+  forumSlug: makeSelectForumSlug(),
+  topicSlug: makeSelectTopicSlug(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLoad: (forumSlug) => dispatch(loadTopics(forumSlug)),
-    onUnLoad: () => dispatch(unloadTopics()),
+    onLoad: (forumSlug) => dispatch(loadPosts(forumSlug)),
+    onUnLoad: () => dispatch(unloadPosts()),
     changePage: (page) => dispatch(changePage(page)),
   };
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'topics', reducer });
-const withSaga = injectSaga({ key: 'topics', saga });
+const withReducer = injectReducer({ key: 'posts', reducer });
+const withSaga = injectSaga({ key: 'posts', saga });
 
 export default compose(
   withReducer,
   withSaga,
   withConnect,
-  withRouter,
-)(Topics);
+)(Posts);

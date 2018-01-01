@@ -1,9 +1,3 @@
-/**
-*
-* PostDetail
-*
-*/
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -22,16 +16,16 @@ import PostStatus from 'components/PostStatus';
 import PostA from 'components/PostA';
 import PostI from 'components/PostI';
 
-const PostDetail = ({
+const ForumDetail = ({
   post: {
     slug,
     title,
     description,
     created_at: createdAt,
   } }) => {
-  const key = `post-${slug}`;
+  const key = `forum-${slug}`;
   return (
-    <PostWrapper key={`post-wrapper-${key}`}>
+    <PostWrapper key={`forum-wrapper-${key}`}>
       <div key={`top-wrapper-${key}`} className="topwrap">
         <PostUserInfo key={`user-info-${key}`} className="float-left">
           <PostAvatar key={`avatar-${key}`}>
@@ -39,15 +33,15 @@ const PostDetail = ({
             <PostStatus key={`status-${key}`} className="green"></PostStatus>
           </PostAvatar>
         </PostUserInfo>
-        <PostText key={`post-text-${key}`} className="float-left">
+        <PostText key={`forum-text-${key}`} className="float-left">
           <PostH2 key={`h2-${key}`}>{title}</PostH2>
-          <p key={`post-text-p-${key}`}>{description}</p>
+          <p key={`forum-text-p-${key}`}>{description}</p>
         </PostText>
-        <div key={`post-text-clearfix-${key}`} className="clearfix" />
+        <div key={`forum-text-clearfix-${key}`} className="clearfix" />
       </div>
-      <PostInfoBot key={`post-info-bot-${key}`}>
-        <PostPrev key={`post-info-prev-${key}`} className="float-left">
-          <PostA key={`post-info-prev-a-${key}`} href="#"><i className="fa fa-reply" /></PostA>
+      <PostInfoBot key={`forum-info-bot-${key}`}>
+        <PostPrev key={`forum-info-prev-${key}`} className="float-left">
+          <PostA key={`forum-info-prev-a-${key}`} href="#"><i className="fa fa-reply" /></PostA>
         </PostPrev>
         <Posted key={`posted-${key}`} className="posted float-left"><i className="fa fa-clock-o" /> Posted on : {createdAt}</Posted>
         <PostNext key={`posted-next-${key}`} className="float-right">
@@ -60,15 +54,11 @@ const PostDetail = ({
   );
 };
 
-PostDetail.propTypes = {
+ForumDetail.propTypes = {
   post: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.bool,
   ]),
 };
 
-PostDetail.defaultProps = {
-  key: 'key',
-};
-
-export default PostDetail;
+export default ForumDetail;
