@@ -16,4 +16,6 @@ export const RESTORE_SESSION = 'boilerplate/App/RESTORE_SESSION';
 export const LOAD_FORUMS_ERROR = 'boilerplate/App/LOAD_FORUMS_ERROR';
 export const SESSION_LOADED = 'boilerplate/App/SESSION_LOADED';
 export const SESSION_DESTROY = 'boilerplate/App/SESSION_DESTROY';
+export const LOADING = 'boilerplate/App/LOADING';
+export const LOADED = 'boilerplate/App/LOADED';
 export const DEFAULT_LOCALE = 'en';

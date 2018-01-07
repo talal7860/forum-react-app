@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import moment from 'moment';
 
-import Profile from 'components/Header/profile.png';
 import PostWrapper from 'components/PostWrapper';
 import PostUserInfo from 'components/PostUserInfo';
 import PostAvatar from 'components/PostAvatar';
@@ -85,14 +84,18 @@ const ListItem = ({
     created_at_i: createdAt,
     posts_count: postsCount,
     views,
-  } }) => {
+    added_by: {
+      avatar: { thumb },
+    },
+  },
+}) => {
   const key = `topic-${slug}`;
   return (
     <PostWrapper key={`topic-wrapper-${key}`}>
       <TopWrap key={`top-wrapper-${key}-div`} className="topwrap float-left">
         <PostUserInfo key={`user-info-${key}`} className="float-left">
           <PostAvatar key={`avatar-${key}`}>
-            <PostAvatarImg key={`avatar-img-${key}`} src={Profile} alt={title} />
+            <PostAvatarImg key={`avatar-img-${key}`} src={thumb} alt={title} />
             <PostStatus key={`status-${key}`} className="green"></PostStatus>
           </PostAvatar>
         </PostUserInfo>

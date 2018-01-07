@@ -10,7 +10,7 @@ import {
   LOAD_FORUMS,
 } from 'containers/App/constants';
 import request from 'utils/request';
-import { sessionLoaded, forumsLoaded, forumLoadingError } from 'containers/App/actions';
+import { sessionLoaded, forumsLoaded, forumLoadingError, loading, loaded } from 'containers/App/actions';
 import { setCurrentUser, setCurrentUserToken, getCurrentUser } from 'utils/persistUser';
 
 import { makeSelectCurrentUser } from 'containers/App/selectors';
@@ -50,11 +50,14 @@ export function* destroySession() {
  */
 export function* getForums() {
   const requestURL = 'http://localhost:3000/api/forums/all';
+  yield put(loading());
   try {
     const forums = yield call(request, requestURL);
     yield put(forumsLoaded(forums));
   } catch (err) {
     yield put(forumLoadingError(err));
+  } finally {
+    yield put(loaded());
   }
 }
 

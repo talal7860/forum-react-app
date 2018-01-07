@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Profile from 'components/Header/profile.png';
 import PostWrapper from 'components/PostWrapper';
 import PostUserInfo from 'components/PostUserInfo';
 import PostAvatar from 'components/PostAvatar';
@@ -22,14 +21,18 @@ const ForumDetail = ({
     title,
     description,
     created_at: createdAt,
-  } }) => {
+    added_by: {
+      avatar: { thumb },
+    },
+  },
+}) => {
   const key = `forum-${slug}`;
   return (
     <PostWrapper key={`forum-wrapper-${key}`}>
       <div key={`top-wrapper-${key}`} className="topwrap">
         <PostUserInfo key={`user-info-${key}`} className="float-left">
           <PostAvatar key={`avatar-${key}`}>
-            <PostAvatarImg key={`avatar-img-${key}`} src={Profile} alt={title} />
+            <PostAvatarImg key={`avatar-img-${key}`} src={thumb} alt={title} />
             <PostStatus key={`status-${key}`} className="green"></PostStatus>
           </PostAvatar>
         </PostUserInfo>

@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { filter, getOr, first, isUndefined } from 'lodash/fp';
+import { filter, getOr, first, isUndefined, isBoolean } from 'lodash/fp';
 import { Container } from 'reactstrap';
 
 import injectReducer from 'utils/injectReducer';
@@ -35,7 +35,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
     return (
       <Container>
-        {isUndefined(forum) ?
+        {isUndefined(forum) || isBoolean(forum) ?
           <NotFoundPage />
           : (<article>
             <Helmet>

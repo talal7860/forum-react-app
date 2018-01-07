@@ -1,5 +1,7 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import request from 'utils/request';
+
+import { loading, loaded } from 'containers/App/actions';
 import {
   LOAD_TOPICS,
   SEARCH_TOPICS,
@@ -13,11 +15,14 @@ function* loadTopics() {
   const query = yield (select(makeSelectQuery()));
   const page = yield (select(makeSelectPage()));
   const requestURL = `http://localhost:3000/api/forums/${forumSlug}/topics/all?q=${query || ''}&page=${page}`;
+  yield put(loading());
   try {
     const topics = yield call(request, requestURL);
     yield put(loadTopicSuccess(topics));
   } catch (err) {
     yield put(loadTopicError(err));
+  } finally {
+    yield put(loaded());
   }
 }
 

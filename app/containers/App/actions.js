@@ -24,6 +24,8 @@ import {
   SESSION_LOADED,
   RESTORE_SESSION,
   SESSION_DESTROY,
+  LOADING,
+  LOADED,
 } from './constants';
 
 
@@ -89,6 +91,18 @@ export function sessionLoaded(currentUser) {
     type: SESSION_LOADED,
     currentUser,
     token: getOr(false, 'token', currentUser),
+  };
+}
+
+export function loading() {
+  return {
+    type: LOADING,
+  };
+}
+
+export function loaded() {
+  return {
+    type: LOADED,
   };
 }
 

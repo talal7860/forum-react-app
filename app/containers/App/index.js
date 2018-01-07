@@ -23,11 +23,13 @@ import Posts from 'containers/Posts/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Breadcumb from 'components/Breadcumb';
+import Loader from 'components/Loader';
 import Footer from 'components/Footer';
 import { restoreSession } from './actions';
 import {
   makeSelectGetSelectedForumSlug as makeSelectForumSlug,
   makeSelectLocation,
+  makeSelectLoading,
   makeSelectTopicSlug,
 } from './selectors';
 import saga from './saga';
@@ -56,6 +58,7 @@ class App extends React.Component {
         <Header />
         <Breadcumb />
         <Content>
+          <Loader />
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/forums/:slug" component={HomePage} />
@@ -80,6 +83,7 @@ const mapStateToProps = createStructuredSelector({
   forumSlug: makeSelectForumSlug(),
   topicSlug: makeSelectTopicSlug(),
   location: makeSelectLocation(),
+  loading: makeSelectLoading(),
 });
 
 App.propTypes = {

@@ -20,6 +20,8 @@ import {
   RESTORE_SESSION,
   SESSION_LOADED,
   SESSION_DESTROY,
+  LOADING,
+  LOADED,
 } from './constants';
 
 // The initial state of the App
@@ -50,16 +52,19 @@ function appReducer(state = initialState, action) {
         .set('error', false);
     case LOAD_FORUMS:
       return state
-        .set('loading', true)
         .set('error', false)
         .set('forums', false);
     case LOAD_FORUMS_SUCCESS:
       return state
-        .set('forums', action.forums)
-        .set('loading', false);
+        .set('forums', action.forums);
     case LOAD_FORUMS_ERROR:
       return state
-        .set('error', action.error)
+        .set('error', action.error);
+    case LOADING:
+      return state
+        .set('loading', true);
+    case LOADED:
+      return state
         .set('loading', false);
     default:
       return state;
