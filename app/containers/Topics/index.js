@@ -17,7 +17,6 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import AlertError from 'components/AlertError';
 import Pagination from 'components/Pagination';
-import { makeSelectLoading } from 'containers/App/selectors';
 import ListItem from './ListItem';
 import { makeSelectTopics, makeSelectError } from './selectors';
 import { loadTopics, unloadTopics, changePage } from './actions';
@@ -62,8 +61,8 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
     const {
       props: {
         topics,
-        loading,
         error,
+        forumSlug,
       },
       onPageChange,
       openTopic,
@@ -71,13 +70,12 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
 
     return (
       <div>
-        { loading ? <Alert color="danger">Loading...</Alert> : null }
         <AlertError error={error} />
         { topics && !isEmpty(topics.data) ?
           <div>
             <Pagination meta={topics.meta} position="top" onPageChange={onPageChange} />
             {topics.data.map((topic) => (
-              <ListItem key={`topic-${topic.slug}`} post={topic} onClick={openTopic} />
+              <ListItem key={`topic-${topic.slug}`} forumSlug={forumSlug} topic={topic} onClick={openTopic} />
             ))}
             <Pagination meta={topics.meta} position="bottom" onPageChange={onPageChange} />
           </div>
@@ -99,14 +97,12 @@ Topics.propTypes = {
     PropTypes.bool,
     PropTypes.string,
   ]),
-  loading: PropTypes.bool,
   forumSlug: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   topics: makeSelectTopics(),
-  loading: makeSelectLoading(),
   error: makeSelectError(),
 });
 

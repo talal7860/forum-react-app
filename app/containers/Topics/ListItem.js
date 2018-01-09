@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 import PostWrapper from 'components/PostWrapper';
 import PostUserInfo from 'components/PostUserInfo';
@@ -13,6 +14,9 @@ import PostStatus from 'components/PostStatus';
 
 const ItemPostText = styled(PostText)`
   width: 85%;
+`;
+
+const PostLink = styled(Link)`
 `;
 
 const PostInfo = styled.div`
@@ -77,7 +81,8 @@ const Time = styled.div`
 `;
 
 const ListItem = ({
-  post: {
+  forumSlug,
+  topic: {
     slug,
     title,
     description,
@@ -100,7 +105,7 @@ const ListItem = ({
           </PostAvatar>
         </PostUserInfo>
         <ItemPostText key={`topic-text-${key}`} className="float-left">
-          <PostH2 key={`h2-${key}`}>{title}</PostH2>
+          <PostLink to={`/forums/${forumSlug}/topics/${slug}`}><PostH2 key={`h2-${key}`}>{title}</PostH2></PostLink>
           <p key={`topic-text-p-${key}`}>{description}</p>
         </ItemPostText>
         <div key={`topic-text-clearfix-${key}`} className="clearfix" />
@@ -125,7 +130,8 @@ const ListItem = ({
 };
 
 ListItem.propTypes = {
-  post: PropTypes.oneOfType([
+  forumSlug: PropTypes.object,
+  topic: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.bool,
   ]),

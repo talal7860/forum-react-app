@@ -49,4 +49,6 @@ injectGlobal`
   .green {
     background-color: #80d3ab;
   }
+  .overflow-hidden {
+  }
 `;

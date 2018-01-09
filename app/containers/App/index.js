@@ -46,9 +46,9 @@ class App extends React.Component {
   }
 
   render() {
-    const { props: { forumSlug, topicSlug } } = this;
+    const { props: { forumSlug, topicSlug, loading } } = this;
     return (
-      <Container fluid>
+      <Container fluid className={loading ? 'overflow-hidden' : ''}>
         <Helmet
           titleTemplate="%s | Forum"
           defaultTitle="Forum"
@@ -58,12 +58,12 @@ class App extends React.Component {
         <Header />
         <Breadcumb />
         <Content>
-          <Loader />
+          { loading ? <Loader /> : null }
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/forums/:slug" component={HomePage} />
             {forumSlug ? <Route exact path={`/forums/${forumSlug}/topics/new`} component={TopicNew} /> : null}
-            {topicSlug ? <Route exact path={`/forums/${forumSlug}/topics/${topicSlug}/posts`} component={Posts} /> : null}
+            {topicSlug ? <Route exact path={`/forums/${forumSlug}/topics/${topicSlug}`} component={Posts} /> : null}
             <Route path="" component={NotFoundPage} />
           </Switch>
         </Content>
@@ -92,6 +92,7 @@ App.propTypes = {
     PropTypes.bool,
     PropTypes.string,
   ]),
+  loading: PropTypes.bool,
   topicSlug: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string,
