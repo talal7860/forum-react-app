@@ -47,16 +47,6 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
     this.props.changePage(page);
   }
 
-  openTopic(topic) {
-    const {
-      props: {
-        forumSlug,
-        history,
-      },
-    } = this;
-    history.push(`/forums/${forumSlug}/topics/${topic.slug}`);
-  }
-
   render() {
     const {
       props: {
@@ -65,7 +55,6 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
         forumSlug,
       },
       onPageChange,
-      openTopic,
     } = this;
 
     return (
@@ -75,7 +64,7 @@ export class Topics extends React.Component { // eslint-disable-line react/prefe
           <div>
             <Pagination meta={topics.meta} position="top" onPageChange={onPageChange} />
             {topics.data.map((topic) => (
-              <ListItem key={`topic-${topic.slug}`} forumSlug={forumSlug} topic={topic} onClick={openTopic} />
+              <ListItem key={`topic-${topic.slug}`} forumSlug={forumSlug} topic={topic} />
             ))}
             <Pagination meta={topics.meta} position="bottom" onPageChange={onPageChange} />
           </div>
@@ -98,7 +87,6 @@ Topics.propTypes = {
     PropTypes.string,
   ]),
   forumSlug: PropTypes.string.isRequired,
-  history: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

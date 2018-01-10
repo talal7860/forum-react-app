@@ -17,8 +17,8 @@ import injectReducer from 'utils/injectReducer';
 import PostDetail from 'components/PostDetail';
 import AlertError from 'components/AlertError';
 import Pagination from 'components/Pagination';
-import { makeSelectGetSelectedForumSlug as makeSelectForumSlug, makeSelectTopicSlug } from 'containers/App/selectors';
-import { makeSelectPosts, makeSelectLoading, makeSelectError } from './selectors';
+import { makeSelectTopicSlug } from 'containers/App/selectors';
+import { makeSelectPosts, makeSelectError } from './selectors';
 import { loadPosts, unloadPosts, changePage } from './actions';
 import reducer from './reducer';
 import saga from './saga';
@@ -30,12 +30,12 @@ export class Posts extends React.Component { // eslint-disable-line react/prefer
   }
 
   componentDidMount() {
-    this.props.onLoad(this.props.forumSlug);
+    this.props.onLoad(this.props.topicSlug);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.forumSlug !== nextProps.forumSlug) {
-      this.props.onLoad(this.props.forumSlug);
+    if (this.props.topicSlug !== nextProps.topicSlug || this.props.forumSlug !== nextProps.forumSlug) {
+      this.props.onLoad(this.props.topicSlug);
     }
   }
 
@@ -51,23 +51,19 @@ export class Posts extends React.Component { // eslint-disable-line react/prefer
     const {
       props: {
         posts,
-        loading,
         error,
-        topicSlug,
       },
       onPageChange,
     } = this;
 
     return (
       <div>
-        { loading ? <Alert color="warning">Loading...</Alert> : null }
-        {topicSlug}
         <AlertError error={error} />
         { posts && !isEmpty(posts.data) ?
           <div>
             <Pagination meta={posts.meta} position="top" onPageChange={onPageChange} />
             {posts.data.map((post) => (
-              <PostDetail key={`post-${post.slug}`} post={post} />
+              <PostDetail key={`post-${post.id}`} post={post} />
             ))}
             <Pagination meta={posts.meta} position="bottom" onPageChange={onPageChange} />
           </div>
@@ -89,22 +85,19 @@ Posts.propTypes = {
     PropTypes.bool,
     PropTypes.string,
   ]),
-  loading: PropTypes.bool,
   forumSlug: PropTypes.string.isRequired,
   topicSlug: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   posts: makeSelectPosts(),
-  loading: makeSelectLoading(),
   error: makeSelectError(),
-  forumSlug: makeSelectForumSlug(),
   topicSlug: makeSelectTopicSlug(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLoad: (forumSlug) => dispatch(loadPosts(forumSlug)),
+    onLoad: (topicSlug) => dispatch(loadPosts(topicSlug)),
     onUnLoad: () => dispatch(unloadPosts()),
     changePage: (page) => dispatch(changePage(page)),
   };

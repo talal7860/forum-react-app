@@ -130,7 +130,7 @@ const ListItem = ({
 };
 
 ListItem.propTypes = {
-  forumSlug: PropTypes.object,
+  forumSlug: PropTypes.string,
   topic: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.bool,

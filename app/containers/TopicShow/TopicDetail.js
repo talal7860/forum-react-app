@@ -1,17 +1,13 @@
-/**
-*
-* PostDetail
-*
-*/
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Profile from 'components/Header/profile.png';
 import PostWrapper from 'components/PostWrapper';
 import PostUserInfo from 'components/PostUserInfo';
 import PostAvatar from 'components/PostAvatar';
 import PostAvatarImg from 'components/PostAvatarImg';
 import PostText from 'components/PostText';
+import PostH2 from 'components/PostH2';
 import PostInfoBot from 'components/PostInfoBot';
 import PostPrev from 'components/PostPrev';
 import PostNext from 'components/PostNext';
@@ -20,28 +16,26 @@ import PostStatus from 'components/PostStatus';
 import PostA from 'components/PostA';
 import PostI from 'components/PostI';
 
-const PostDetail = ({
-  post: {
-    id,
-    content,
+const TopicDetail = ({
+  topic: {
+    slug,
+    title,
+    description,
     created_at: createdAt,
-    added_by: {
-      avatar: { thumb },
-      name,
-    },
   } }) => {
-  const key = `post-${id}`;
+  const key = `topic-${slug}`;
   return (
     <PostWrapper key={`post-wrapper-${key}`}>
       <div key={`top-wrapper-${key}`} className="topwrap">
         <PostUserInfo key={`user-info-${key}`} className="float-left">
           <PostAvatar key={`avatar-${key}`}>
-            <PostAvatarImg key={`avatar-img-${key}`} src={thumb} alt={name} />
+            <PostAvatarImg key={`avatar-img-${key}`} src={Profile} alt={title} />
             <PostStatus key={`status-${key}`} className="green"></PostStatus>
           </PostAvatar>
         </PostUserInfo>
         <PostText key={`post-text-${key}`} className="float-left">
-          <p key={`post-text-p-${key}`}>{content}</p>
+          <PostH2 key={`h2-${key}`}>{title}</PostH2>
+          <p key={`post-text-p-${key}`}>{description}</p>
         </PostText>
         <div key={`post-text-clearfix-${key}`} className="clearfix" />
       </div>
@@ -60,15 +54,14 @@ const PostDetail = ({
   );
 };
 
-PostDetail.propTypes = {
-  post: PropTypes.oneOfType([
+TopicDetail.propTypes = {
+  topic: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.bool,
   ]),
 };
 
-PostDetail.defaultProps = {
-  key: 'key',
+TopicDetail.defaultProps = {
 };
 
-export default PostDetail;
+export default TopicDetail;

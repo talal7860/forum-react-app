@@ -16,7 +16,7 @@ import PostA from 'components/PostA';
 import PostI from 'components/PostI';
 
 const ForumDetail = ({
-  post: {
+  forum: {
     slug,
     title,
     description,
@@ -58,7 +58,7 @@ const ForumDetail = ({
 };
 
 ForumDetail.propTypes = {
-  post: PropTypes.oneOfType([
+  forum: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.bool,
   ]),

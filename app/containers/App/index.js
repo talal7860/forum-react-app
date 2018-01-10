@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 
 import HomePage from 'containers/HomePage/Loadable';
 import TopicNew from 'containers/TopicNew/Loadable';
-import Posts from 'containers/Posts/Loadable';
+import TopicShow from 'containers/TopicShow/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Breadcumb from 'components/Breadcumb';
@@ -63,7 +63,7 @@ class App extends React.Component {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/forums/:slug" component={HomePage} />
             {forumSlug ? <Route exact path={`/forums/${forumSlug}/topics/new`} component={TopicNew} /> : null}
-            {topicSlug ? <Route exact path={`/forums/${forumSlug}/topics/${topicSlug}`} component={Posts} /> : null}
+            {topicSlug ? <Route exact path={`/forums/${forumSlug}/topics/${topicSlug}`} component={TopicShow} /> : null}
             <Route path="" component={NotFoundPage} />
           </Switch>
         </Content>

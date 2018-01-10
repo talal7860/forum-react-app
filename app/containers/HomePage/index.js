@@ -42,7 +42,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
               <title>{title}</title>
               <meta name="description" content={getOr('Loading...', 'description', forum)} />
             </Helmet>
-            <ForumDetail post={forum} />
+            <ForumDetail forum={forum} />
             <Topics forumSlug={forumSlug} />
           </article>)
         }
